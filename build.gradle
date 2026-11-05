@@ -5,17 +5,33 @@ plugins {
 group = 'cholog'
 version = '1.0-SNAPSHOT'
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 repositories {
     mavenCentral()
+    maven { url = 'https://jitpack.io' }
+}
+
+configurations {
+    mockitoAgent
 }
 
 dependencies {
+    implementation 'com.github.woowacourse-projects:mission-utils:1.2.0'
+
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation platform('org.assertj:assertj-bom:3.25.1')
     testImplementation('org.junit.jupiter:junit-jupiter')
     testImplementation('org.assertj:assertj-core')
+
+    mockitoAgent('org.mockito:mockito-core:5.14.1') { transitive = false }
 }
 
 test {
     useJUnitPlatform()
+    jvmArgs "-javaagent:${configurations.mockitoAgent.asPath}"
 }
