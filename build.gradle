@@ -34,4 +34,8 @@ dependencies {
 test {
     useJUnitPlatform()
     jvmArgs "-javaagent:${configurations.mockitoAgent.asPath}"
+    testLogging {
+        events 'failed'
+        exceptionFormat 'full'
+    }
 }
